@@ -88,8 +88,8 @@
     <div id="strikeBanner">STRIKE!</div>
     <div id="powerBar"><div id="powerFill"></div></div>
     <div id="controls">
-        <p>← → Move Ball | ↑↓ Curve (Spin) | SPACE: Hold &amp; Release to Throw</p>
-        <p>Game restarts automatically after all pins are down.</p>
+        <p>← → Move Ball | SPACE: Hold &amp; Release to Throw</p>
+        <p>Press R to reset pins and ball.</p>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cannon.js/0.6.2/cannon.min.js"></script>
@@ -217,8 +217,6 @@
             if (!isRolling) {
                 if (e.key === 'ArrowLeft') ball.position.x = Math.max(ball.position.x - 0.15, -1.5);
                 if (e.key === 'ArrowRight') ball.position.x = Math.min(ball.position.x + 0.15, 1.5);
-                if (e.key === 'ArrowUp') ballSpin = Math.min(ballSpin + 0.01, 0.08);
-                if (e.key === 'ArrowDown') ballSpin = Math.max(ballSpin - 0.01, -0.08);
                 if (e.code === 'Space' && !isPowering) {
                     isPowering = true;
                     power = minPower;
@@ -238,7 +236,7 @@
             if (isRolling) return;
             isRolling = true;
             ballVelocity = -power;
-            ballCurve = ballSpin * 10;
+            ballCurve = 0;
         }
 
         let isResetting = false;
@@ -289,7 +287,6 @@
             // Ball movement
             if (isRolling) {
                 ball.position.z += ballVelocity * 0.016;
-                ball.position.x += ballCurve * 0.016;
                 ball.rotation.z += ballSpin;
                 // Collision with pins
                 pins.forEach((pin, i) => {
@@ -349,5 +346,6 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
     </script>
+    <script src="ttslib.js"></script>
 </body>
 </html> 
